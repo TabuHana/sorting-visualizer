@@ -1,15 +1,16 @@
 'use client';
 
+import { SliderControl } from '@/components/slider-control';
+import { Slider } from '@/components/ui/slider';
 import { useSortingAlgorithmContext } from '@/context/visualizer-context';
 import { useContext, useEffect } from 'react';
 
 export default function Home() {
-    const { array, isRunning } = useSortingAlgorithmContext();
+    const { array, isRunning, speed, setSpeed } = useSortingAlgorithmContext();
 
     useEffect(() => {
-        console.log(array);
-        console.log(isRunning);
-    }, []);
+        console.log(speed);
+    }, [speed]);
 
     return (
         <div className='absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]'>
@@ -20,7 +21,14 @@ export default function Home() {
                 >
                     <div className='relative flex h-[66px] w-full items-center justify-between'>
                         <h1 className='hidden text-2xl font-light md:flex'>Sorting Visualizer</h1>
-                        <div>Controls</div>
+                        <div>
+                            <SliderControl
+                                value={speed}
+                                onChange={e => setSpeed(e.target.value as unknown as number)}
+                                disabled={isRunning}
+                            />
+
+                        </div>
                     </div>
                     <div className='relative h-[calc(100vh-66px)] w-full'>
                         <div className='absolute bottom-[32px] left-0 right-0 mx-auto flex w-full items-end justify-center'>

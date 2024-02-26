@@ -5,6 +5,7 @@ import { SortingAlgorithmProvider } from '@/context/visualizer-context';
 import { cn } from '@/lib/utils';
 
 import './globals.css';
+import { Slider } from '@/components/ui/slider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +23,8 @@ export default function RootLayout({
         <html lang='en'>
             <body className={cn('text-gray-300', inter.className)}>
                 <SortingAlgorithmProvider>{children}</SortingAlgorithmProvider>
+                {/* <Slider defaultValue={[33]} max={100} step={1} className='border-pink-400 pt-20' /> */}
+
             </body>
         </html>
     );
