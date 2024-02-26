@@ -1,9 +1,10 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import { SortingAlgorithmType } from '@/lib/types';
 import { MAX_ANIMATION_SPEED } from '@/lib/constants';
+import { generateRandomNumberFromInterval } from '@/lib/utils';
 
 type SortingAlgorithmContextType = {
     array: number[];
@@ -16,7 +17,7 @@ type SortingAlgorithmContextType = {
     setSpeed: (speed: number) => void;
     isSorted: boolean;
     setIsSorted: (isSorted: boolean) => void;
-    resetArray: (length: number) => void;
+    resetArrayAnimation: () => void;
     runAnimation: () => void;
 };
 
@@ -25,7 +26,7 @@ const SortingAlgorithmContext = createContext<SortingAlgorithmContextType | unde
 export const SortingAlgorithmProvider = ({ children }: { children: React.ReactNode }) => {
     // State & core functions
     // Arry to sort
-    const [array, setArray] = useState<number[]>([]);
+    const [array, setArray] = useState<number[]>([100, 50, 25, 75, 150, 125, 200, 175, 225, 250]);
     // Which algorithm to use
     const [algorithm, setAlgorithm] = useState<SortingAlgorithmType>('bubble');
     // If the animation is running
@@ -35,12 +36,40 @@ export const SortingAlgorithmProvider = ({ children }: { children: React.ReactNo
     // If the array is sorted
     const [isSorted, setIsSorted] = useState<boolean>(false);
 
+    useEffect(() => {
+        resetArrayAnimation();
+        window.addEventListener('resize', resetArrayAnimation);
+
+        return () => {
+            window.removeEventListener('resize', resetArrayAnimation);
+        };
+    }, []);
+
     // Main functions
     // Reset the array
-    const resetArray = (length: number) => {
-        const newArray = Array.from({ length }, () => Math.floor(Math.random() * 100) + 1);
-        setArray(newArray);
+    const resetArrayAnimation = () => {
+        const contentContainer = document.getElementById('content-container');
+        if (!contentContainer) return;
+
+        // Get the width of the content container
+        const contentContainerWidth = contentContainer.clientWidth;
+        // Create a temporary array
+        const tempArray: number[] = [];
+        // Create a number of lines based on the width of the content container
+        const numLines = contentContainerWidth / 8;
+        // Create a line height based on the height of the content container
+        const containerHeight = window.innerHeight;
+        // Set the max line height
+        const maxLineHeight = Math.max(containerHeight - 420, 100);
+
+        // Iterate over the number of lines and push a random number to the temporary array
+        for (let i = 0; i < numLines; i++) {
+            tempArray.push(generateRandomNumberFromInterval(35, maxLineHeight));
+        }
+
+        setArray(tempArray);
         setIsSorted(false);
+        setIsRunning(false);
     };
 
     // Run the animation
@@ -57,7 +86,7 @@ export const SortingAlgorithmProvider = ({ children }: { children: React.ReactNo
         setSpeed,
         isSorted,
         setIsSorted,
-        resetArray,
+        resetArrayAnimation,
         runAnimation,
     };
 

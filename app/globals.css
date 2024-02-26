@@ -73,4 +73,10 @@
     body {
         @apply bg-background text-foreground;
     }
+    .default-line-color {
+        @apply bg-teal-500
+    }
+    .change-line-color {
+        @apply bg-red-500
+    }
 }
