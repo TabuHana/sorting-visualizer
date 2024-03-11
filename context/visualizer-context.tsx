@@ -47,12 +47,14 @@ export const SortingAlgorithmProvider = ({ children }: { children: React.ReactNo
         };
     }, []);
 
-
     // Main functions
     // Reset the array
     const resetArrayAnimation = () => {
         const contentContainer = document.getElementById('content-container');
-        if (!contentContainer) return;
+        if (!contentContainer) {
+            console.log('Content container not found');
+            return;
+        }
 
         // Get the width of the content container
         const contentContainerWidth = contentContainer.clientWidth;
@@ -63,11 +65,11 @@ export const SortingAlgorithmProvider = ({ children }: { children: React.ReactNo
         // Create a line height based on the height of the content container
         const containerHeight = window.innerHeight;
         // Set the max line height
-        const maxLineHeight = Math.max(containerHeight - 420, 100);
+        const maxLineHeight = Math.max(containerHeight - 400, 100);
 
         // Iterate over the number of lines and push a random number to the temporary array
         for (let i = 0; i < numLines; i++) {
-            tempArray.push(generateRandomNumberFromInterval(35, maxLineHeight));
+            tempArray.push(generateRandomNumberFromInterval(25, maxLineHeight));
         }
 
         setArray(tempArray);
@@ -83,7 +85,7 @@ export const SortingAlgorithmProvider = ({ children }: { children: React.ReactNo
         }, 0);
 
         setTimeout(() => {
-            const arrayLines = document.getElementsByClassName('array-line')
+            const arrayLines = document.getElementsByClassName('array-line');
             for (let i = 0; i < arrayLines.length; i++) {
                 arrayLines[i].classList.remove('change-line-color');
                 arrayLines[i].classList.add('default-line-color');

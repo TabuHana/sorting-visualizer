@@ -27,7 +27,7 @@ export const SliderControl = ({
                 value={value}
                 onChange={onChange}
                 disabled={disabled}
-                className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-blue-700'
+                className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-pink-200'
             />
             <span className='text-center'>Fast</span>
         </div>
